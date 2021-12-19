@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Sphinx to GitHub Pages &#8212; sphinxnotes-pages 1.0a documentation</title>
+    <title>Sphinx to GitHub Pages V2 &#8212; sphinxnotes-pages 1.0a documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -32,11 +32,10 @@
 
           <div class="body" role="main">
             
-  <section id="sphinx-to-github-pages">
-<h1>Sphinx to GitHub Pages<a class="headerlink" href="#sphinx-to-github-pages" title="Permalink to this headline">¶</a></h1>
+  <section id="sphinx-to-github-pages-v2">
+<h1>Sphinx to GitHub Pages V2<a class="headerlink" href="#sphinx-to-github-pages-v2" title="Permalink to this headline">¶</a></h1>
 <a class="reference external image-reference" href="https://github.com/sphinx-notes/pages"><img alt="https://img.shields.io/github/stars/sphinx-notes/pages.svg?style=social&amp;label=Star&amp;maxAge=2592000" src="https://img.shields.io/github/stars/sphinx-notes/pages.svg?style=social&amp;label=Star&amp;maxAge=2592000" /></a>
-<p>The project is originated from <a class="reference external" href="https://github.com/seanzhengw/sphinx-pages.">seanzhengw/sphinx-pages</a>,
-it helps you building Sphinx documentation and commit specified branch.</p>
+<p>Help you deploying your Sphinx documentation to Github Pages.</p>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
@@ -44,26 +43,29 @@ it helps you building Sphinx documentation and commit specified branch.</p>
 <p>You should enable extension <code class="docutils literal notranslate"><span class="pre">sphinx.ext.githubpages</span></code> in your <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>
 first.</p>
 </div>
-<p>The simplpest Workflow file looks like that:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build and Commit</span>
-  <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sphinx-notes/pages@master</span>
-</pre></div>
-</div>
-<p>But note that this actions only help you build and commit Sphinx documentation,
-we need another two actions: one for checking out and one for push to remote,
-so your workflow file should be:</p>
+<p>This action only help you build and commit Sphinx documentation to <code class="docutils literal notranslate"><span class="pre">gh-pages</span></code>,
+branch. So we need some other actions:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">action/setup-python</span></code> for installing python and pip</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">actions/checkout</span></code> for checking out git repository</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ad-m/github-push-action</span></code> for pushing site to remote</p></li>
+</ul>
+<p>So your workflow file should be:</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Pages</span>
-<span class="nt">on</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">push</span><span class="p p-Indicator">]</span>
+<span class="nt">on</span><span class="p">:</span>
+  <span class="nt">push</span><span class="p">:</span>
+    <span class="nt">branches</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">master</span>
 <span class="nt">jobs</span><span class="p">:</span>
   <span class="nt">build</span><span class="p">:</span>
     <span class="nt">runs-on</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
     <span class="nt">steps</span><span class="p">:</span>
-    <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Checkout</span>
-      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@master</span>
+    <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/setup-python@v2</span>
+    <span class="p p-Indicator">-</span> <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">actions/checkout@master</span>
       <span class="nt">with</span><span class="p">:</span>
         <span class="nt">fetch-depth</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0</span> <span class="c1"># otherwise, you will failed to push refs to dest repo</span>
     <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Build and Commit</span>
-      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sphinx-notes/pages@master</span>
+      <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">sphinx-notes/pages@v2</span>
     <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Push changes</span>
       <span class="nt">uses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">ad-m/github-push-action@master</span>
       <span class="nt">with</span><span class="p">:</span>
@@ -74,35 +76,78 @@ so your workflow file should be:</p>
 </section>
 <section id="inputs">
 <h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
-<dl class="field-list simple">
-<dt class="field-odd">target_branch</dt>
-<dd class="field-odd"><p>(default: <code class="docutils literal notranslate"><span class="pre">'gh-pages'</span></code>) Git branch where assets will be deployed</p>
-</dd>
-<dt class="field-even">repository_path</dt>
-<dd class="field-even"><p>(default: <code class="docutils literal notranslate"><span class="pre">'.'</span></code>) Relative path under $GITHUB_WORKSPACE to place the repository</p>
-</dd>
-<dt class="field-odd">documentation_path</dt>
-<dd class="field-odd"><p>(default: <code class="docutils literal notranslate"><span class="pre">'.'</span></code>) Relative path under repository to documentation source files</p>
-</dd>
-<dt class="field-even">install_requirements</dt>
-<dd class="field-even"><p>(default: <code class="docutils literal notranslate"><span class="pre">'true'</span></code>) Install Sphinx extensions listed in $documentation_path/requirements.txt, symbol link is supported</p>
-</dd>
-<dt class="field-odd">extra_files</dt>
-<dd class="field-odd"><p>(default: <code class="docutils literal notranslate"><span class="pre">''</span></code>) Extras files(such as README, LICENSE) to be commited to $target_branch</p>
-</dd>
-</dl>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 17%" />
+<col style="width: 16%" />
+<col style="width: 38%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Input</p></td>
+<td><p>Default</p></td>
+<td><p>Required</p></td>
+<td><p>Description</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">documentation_path</span></code></p></td>
+<td><p>‘./docs’</p></td>
+<td><p>false</p></td>
+<td><p>Relative path under
+repository to documentation
+source files</p></td>
+</tr>
+<tr class="row-odd"><td><p><a href="#id1"><span class="problematic" id="id2">``</span></a>target_branch` `</p></td>
+<td><p>‘gh-pages’</p></td>
+<td><p>false</p></td>
+<td><p>Git branch where assets will
+be deployed</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">repository_path</span></code></p></td>
+<td><p>‘.’</p></td>
+<td><p>false</p></td>
+<td><p>Relative path under
+$GITHUB_WORKSPACE to place
+the repository.
+You not need to set this
+Input unless you checkout
+the repository to a custom
+path</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">requirements_path</span></code></p></td>
+<td><p>‘’</p></td>
+<td><p>false</p></td>
+<td><p>Relative path under
+$repository_path to pip
+requirements file</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sphinx_version</span></code></p></td>
+<td><p>‘’</p></td>
+<td><p>false</p></td>
+<td><p>Version of Sphinx</p></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
-<p>The following pages are built by this action:</p>
+<p>The following repository’s pages are built by this action:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://sphinx-notes.github.io/pages">https://sphinx-notes.github.io/pages</a></p></li>
-<li><p><a class="reference external" href="https://sphinx-notes.github.io/lilypond">https://sphinx-notes.github.io/lilypond</a></p></li>
-<li><p><a class="reference external" href="https://sphinx-notes.github.io/any">https://sphinx-notes.github.io/any</a></p></li>
-<li><p><a class="reference external" href="https://sphinx-notes.github.io/strike">https://sphinx-notes.github.io/strike</a></p></li>
-<li><p>You can visit <a class="reference external" href="https://sphinx-notes.github.io">https://sphinx-notes.github.io</a> for more pages…</p></li>
+<li><p><a class="reference external" href="https://github.com/SilverRainZ/bullet">https://github.com/SilverRainZ/bullet</a></p></li>
+<li><p><a class="reference external" href="https://github.com/sphinx-notes/pages">https://github.com/sphinx-notes/pages</a></p></li>
+<li><p><a class="reference external" href="https://github.com/sphinx-notes/any">https://github.com/sphinx-notes/any</a></p></li>
+<li><p><a class="reference external" href="https://github.com/sphinx-notes/snippet">https://github.com/sphinx-notes/snippet</a></p></li>
+<li><p><a class="reference external" href="https://github.com/sphinx-notes/lilypond">https://github.com/sphinx-notes/lilypond</a></p></li>
+<li><p><a class="reference external" href="https://github.com/sphinx-notes/strike">https://github.com/sphinx-notes/strike</a></p></li>
+<li><p>…</p></li>
 </ul>
-<p>You can found the workflow file in their corrsponding repository.</p>
+<p>You can found the workflow file in their repository.</p>
+</section>
+<section id="tips">
+<h2>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="copy-extra-files-to-site">
+<h2>Copy extra files to site<a class="headerlink" href="#copy-extra-files-to-site" title="Permalink to this headline">¶</a></h2>
+<p>Use Sphinx confval <a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-html_extra_path">html_extra_path</a>.</p>
 </section>
 </section>
 
@@ -116,7 +161,7 @@ so your workflow file should be:</p>
       &copy;2020, Shengyu Zhang.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.2.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.3.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
