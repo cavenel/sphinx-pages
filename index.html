@@ -102,7 +102,17 @@ source files</p></td>
 <td><p>Git branch where assets will
 be deployed</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">repository_path</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">target_path</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">'.'</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
+<td><blockquote>
+<div><p>Directory in Github Pages</p>
+</div></blockquote>
+<p>where Sphinx Pages will be
+placed</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">repository_path</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">'.'</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
 <td><p>Relative path under
@@ -113,14 +123,14 @@ Input unless you checkout
 the repository to a custom
 path</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">requirements_path</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">requirements_path</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">''</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
 <td><p>Relative path under
 <code class="docutils literal notranslate"><span class="pre">$repository_path</span></code> to pip
 requirements file</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">sphinx_version</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">sphinx_version</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">''</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">false</span></code></p></td>
 <td><p>Custom version of Sphinx</p></td>
@@ -161,7 +171,7 @@ requirements file</p></td>
       &copy;2020, Shengyu Zhang.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
