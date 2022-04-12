@@ -52,7 +52,8 @@ echo ::endgroup::
 
 echo ::group:: Running Sphinx builder
 sphinx-build -b html $doc_dir $tmp_dir
-make latexpdf
+sphinx-build -M latexpdf $doc_dir $tmp_dir
+
 echo ::endgroup::
 
 echo ::group:: Setting up git repository
@@ -81,6 +82,7 @@ echo Copying HTML documentation to repository
 # Remove unused doctree
 rm -rf $tmp_dir/.doctrees
 cp -vr $tmp_dir/. $INPUT_TARGET_PATH
+cp -vr $tmp_dir/latex/index.pdf $INPUT_TARGET_PATH
 echo Adding HTML documentation to repository index
 git add $INPUT_TARGET_PATH
 echo Recording changes to repository
