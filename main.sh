@@ -52,6 +52,7 @@ echo ::endgroup::
 
 echo ::group:: Running Sphinx builder
 sphinx-build -b html $doc_dir $tmp_dir
+make latexpdf
 echo ::endgroup::
 
 echo ::group:: Setting up git repository
